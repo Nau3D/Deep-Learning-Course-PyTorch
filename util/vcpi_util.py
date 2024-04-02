@@ -27,7 +27,7 @@ def show_history(history):
     for key in history.keys():
     
         # summarize history for accuracy
-        plt.plot(history['accuracy'])
+        plt.plot(history[key])
         plt.title(key)
         plt.ylabel(key)
         plt.xlabel('epoch')
