@@ -89,6 +89,20 @@ def show_confusion_matrix(ground_truth, preds, num_classes):
 
     plt.show()
     
+def show_unnormalized_confusion_matrix(ground_truth, preds, num_classes):    
+    # Calculate the raw occurrences
+    cf_matrix = confusion_matrix(ground_truth, preds)
+
+    # 1. Remove the division that was normalizing the matrix into percentages
+    df_cm = pd.DataFrame(cf_matrix, index=range(num_classes), columns=range(num_classes))
+    
+    plt.figure(figsize=(12, 6))
+
+    # 2. Change fmt='.3f' to fmt='d' to format the annotations as integers
+    sn.heatmap(df_cm, annot=True, annot_kws={"size": 10}, fmt='d')
+    
+    plt.show()
+
 
 def show_loaded_images(rows, cols, data,classes):
 
