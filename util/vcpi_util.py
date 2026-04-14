@@ -79,7 +79,7 @@ def show_histogram(data, classes):
 
 def show_confusion_matrix(ground_truth, preds, num_classes):    
 
-    cf_matrix = confusion_matrix(ground_truth, preds)
+    cf_matrix = confusion_matrix(ground_truth, preds, classes = None)
 
 
     df_cm = pd.DataFrame(cf_matrix / np.sum(cf_matrix, axis=1)[:, None], range(num_classes), range(num_classes))
@@ -89,18 +89,25 @@ def show_confusion_matrix(ground_truth, preds, num_classes):
 
     plt.show()
     
-def show_unnormalized_confusion_matrix(ground_truth, preds, num_classes):    
+def show_unnormalized_confusion_matrix(ground_truth, preds, num_classes, classes=None):    
     # Calculate the raw occurrences
     cf_matrix = confusion_matrix(ground_truth, preds)
 
     # 1. Remove the division that was normalizing the matrix into percentages
     df_cm = pd.DataFrame(cf_matrix, index=range(num_classes), columns=range(num_classes))
     
-    plt.figure(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(4, 4))
 
     # 2. Change fmt='.3f' to fmt='d' to format the annotations as integers
-    sn.heatmap(df_cm, annot=True, annot_kws={"size": 10}, fmt='d')
-    
+    if classes == None:
+        sn.heatmap(df_cm, annot=True, annot_kws={"size": 10}, fmt='d')
+    else:
+        sn.heatmap(df_cm, annot=True, annot_kws={"size": 10}, fmt='d',
+                            xticklabels=classes,
+                            yticklabels=classes,
+                            ax=ax)        
+    ax.set_xlabel("Predicted label")
+    ax.set_ylabel("True label")
     plt.show()
 
 
